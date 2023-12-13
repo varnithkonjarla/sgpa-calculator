@@ -1,1 +1,1 @@
-# sgpa-calculator
+sgpacalci.netlify.app
