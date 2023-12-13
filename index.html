@@ -1,0 +1,144 @@
+<html>
+    <style>
+        #form2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        table {
+            margin: auto;
+        }
+        .button {
+             width: 100px;
+             height: 30px;
+            font-size: 18px;
+            }
+        #finalsgpa {
+            font-size: 24px;
+        }
+    </style>
+    <body align="center" >
+        <img src="kits.png" alt="Image of Kitsw" width="1200" height="200" />
+        <h1><u> SGPA CALCULATOR</u></h1>
+        
+        <form id="form1" align="center"><font size="5">
+            <h4>If you are fail in any subject please won't consider that as a subject.</h4>
+            Enter the Number Of Subjects: </font>
+            <input type="text" id="enter" name="enter" required></input>
+            <br><br><br>
+            <input type="button" class="button" value="submit" onclick="displayValue()" size="15">
+        </form>
+
+        <form id="form2" style="display:none;" align="center">
+            <h3>If the secured GPA in Letter's system please enter accourding to mention below. </h3>
+            <h4>S-->10,A-->9,B-->8,C-->7,D-->6,E-->5,P-->4,F-->Fail</h4>
+            <div id="myTable">
+            </div>
+            
+        </form>
+        <script>
+            function displayValue() {
+                event.preventDefault();
+                var enter = document.getElementById("enter").value;
+                if (isNaN(enter) || enter < 1) {
+                alert("Please enter a valid number of subjects.");
+                 return;
+                 }
+                var form1 = document.getElementById("form1");
+                form1.style.display = "none"; // hide the first form
+
+                var form2 = document.getElementById("form2");
+                form2.style.display = "block"; // show the second form
+
+                var tableContainer = document.createElement("div"); // create container for table
+                var table = document.createElement("table");
+                table.setAttribute("id", "myTable");
+                var colLabelsRow = document.createElement("tr");
+                 var colLabel1 = document.createElement("th");
+                 colLabel1.textContent = "Subjects";
+                colLabelsRow.appendChild(colLabel1);
+                 var colLabel2 = document.createElement("th");
+                colLabel2.textContent = "Credits";
+                colLabelsRow.appendChild(colLabel2);
+                 var collabel3=document.createElement("th");
+                 collabel3.textContent="Secured GPA in Subject";
+                 colLabelsRow.appendChild(collabel3);
+                 table.appendChild(colLabelsRow);
+                 
+
+                // create table rows and cells based on user input
+                for (var i = 0; i < enter; i++) {
+                    var row = document.createElement("tr");
+                    var labelCell = document.createElement("td");
+                    var label = document.createElement("label");
+                    label.innerHTML = "Subject " + (i+1); // set label text
+                    labelCell.appendChild(label);
+                    row.appendChild(labelCell);
+
+                    for (var j = 0; j < 2; j++) {
+                        var cell = document.createElement("td");
+                        var input = document.createElement("input");
+                        input.type = "number";
+                        input.id = "row" + i + "col" + j;
+                        input.name = "row" + i + "col" + j;
+                        cell.appendChild(input);
+                        row.appendChild(cell);
+                    }
+
+                    table.appendChild(row);
+                }
+
+                // add the table to the container
+                tableContainer.appendChild(table);
+
+                // add the container to the second form
+                form2.appendChild(tableContainer);
+                var lineBreak = document.createElement("br");
+                form2.appendChild(lineBreak);
+                var submitbutton=document.createElement("input");
+                submitbutton.type="button";
+                submitbutton.id="submit";
+                submitbutton.value="submit";
+                submitbutton.onclick=calculate;
+                form2.appendChild(submitbutton);
+                var lineBreak1 = document.createElement("br");
+                form2.appendChild(lineBreak1);
+                var lineBreak2 = document.createElement("br");
+                form2.appendChild(lineBreak2);
+       
+            }
+            var a="false";
+            function calculate() {
+             event.preventDefault();
+             var enter = document.getElementById("enter").value;
+             var label = document.createElement("label");
+             label.textContent = "Final SGPA : ";
+             label.setAttribute("id","finalsgpa")
+             form2.appendChild(label);
+             var output = document.createElement("input");
+             output.type="number";
+             output.id = "output";
+             form2.appendChild(output);
+             if(a=="false"){
+             
+             
+             var csum = 0;
+             var msum = 0;
+             var tab = document.getElementById("myTable");
+             for (var i = 0; i < enter; i++) {
+             var credit = parseFloat(document.getElementById("row" + i + "col0").value);
+             var gpa = parseFloat(document.getElementById("row" + i + "col1").value);
+             msum=msum+credit;
+            var score = credit * gpa;
+             csum = csum + score;
+             }
+            var div = csum / msum;
+            var final = document.getElementById("output");
+            final.value = div.toFixed(2);
+            a=true;
+            }
+        }
+        </script> 
+    </body>
+</html>
